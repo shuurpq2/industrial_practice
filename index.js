@@ -1,14 +1,11 @@
 import express from "express"
 import apiRouter from "./api.js"
-
+import settings from "./config.js"
 
 let app = express()
-const PORT = 3000
 
-
-app.listen(PORT, () => {
-  console.log(`Сервер запущен на http://localhost:${PORT}`)
+app.listen(settings.PORT, () => {
+  console.log(`Server launched on http://localhost:${settings.PORT}`)
 })
-
 
 app.use(apiRouter)
