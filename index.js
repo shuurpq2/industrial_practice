@@ -7,10 +7,10 @@ let app = express()
 
 app.use(express.json())
 
-app.listen(settings.PORT, () => {
-  console.log(`Server launched on http://localhost:${settings.PORT}`)
-})
-
 app.use(express.static(path.join(settings.PATH_TO_DIR, "templates")))
 
 app.use(apiRouter)
+
+app.listen(settings.PORT, () => {
+  console.log(`Server launched on http://localhost:${settings.PORT}`)
+})

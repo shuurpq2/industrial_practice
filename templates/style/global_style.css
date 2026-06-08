@@ -1,3 +1,11 @@
+html {
+    --base-color: #81A6C6;
+    --second-color: #AACDDC;
+    --third-color: #F3E3D0;
+    --text-color: #44413d;
+}
+
 body {
-    background-color: #383838;
+    background-color: var(--base-color);
+    color: var(--text-color);
 }

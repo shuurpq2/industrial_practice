@@ -8,42 +8,54 @@
 </head>
 <body>
   <div class="wrapper">
-    <div class="request" name="createProduct">
-      <form class="requestForm" name="createProductForm" onsubmit="createProductHandler(event)">
-        <div class="requestInputs">
-          <input class="requestInput" name="name" placeholder="name" required>
-          <input type="number" class="requestInput" name="price" placeholder="price" required>
+    <div class="route" name="createProduct">
+      <form class="routeForm" name="createProductForm" onsubmit="createProductHandler(event)">
+        <div class="routeInputs">
+          <input class="routeInput" name="name" placeholder="name" required>
+          <input type="number" class="routeInput" name="price" placeholder="price" required>
         </div>
-        <button class="requestButton postButton">POST</button>
+        <button class="routeButton postButton">POST</button>
       </form>
+      <div class="routeResponseWindow">
+
+      </div>
     </div>
-    <div class="request" name="getProducts">
-      <form class="requestForm" name="getProductsForm" onsubmit="getProductsHandler(event)">
-          <div class="requestInputs">
-            <input type="number" class="requestInput" name="id" placeholder="id">
-            <input class="requestInput" name="name" placeholder="name">
-            <input type="number" class="requestInput" name="price" placeholder="price">
+    <div class="route" name="getProducts">
+      <form class="routeForm" name="getProductsForm" onsubmit="getProductsHandler(event)">
+          <div class="routeInputs">
+            <input type="number" class="routeInput" name="id" placeholder="id">
+            <input class="routeInput" name="name" placeholder="name">
+            <input type="number" class="routeInput" name="price" placeholder="price">
           </div>
-          <button class="requestButton getButton">GET</button>
+          <button class="routeButton getButton">GET</button>
         </form>
-    </div>
-    <div class="request" name="updateProduct">
-      <form class="requestForm" name="updateProductForm" onsubmit="updateProductHandler(event)">
-        <div class="requestInputs">
-          <input type="number" class="requestInput" name="id" placeholder="id" required>
-          <input class="requestInput" name="name" placeholder="name">
-          <input type="number" class="requestInput" name="price" placeholder="price">
+        <div class="routeResponseWindow">
+
         </div>
-        <button class="requestButton patchButton">PATCH</button>
-      </form>
     </div>
-    <div class="request" name="deleteProduct">
-      <form class="requestForm" name="deleteProductForm" onsubmit="deleteProductHandler(event)">
-        <div class="requestInputs">
-          <input type="number" class="requestInput" name="id" placeholder="id" required>
+    <div class="route" name="updateProduct">
+      <form class="routeForm" name="updateProductForm" onsubmit="updateProductHandler(event)">
+        <div class="routeInputs">
+          <input type="number" class="routeInput" name="id" placeholder="id" required>
+          <input class="routeInput" name="name" placeholder="name">
+          <input type="number" class="routeInput" name="price" placeholder="price">
         </div>
-        <button class="requestButton deleteButton">DELETE</button>
+        <button class="routeButton patchButton">PATCH</button>
       </form>
+      <div class="routeResponseWindow">
+
+      </div>
+    </div>
+    <div class="route" name="deleteProduct">
+      <form class="routeForm" name="deleteProductForm" onsubmit="deleteProductHandler(event)">
+        <div class="routeInputs">
+          <input type="number" class="routeInput" name="id" placeholder="id" required>
+        </div>
+        <button class="routeButton deleteButton">DELETE</button>
+      </form>
+      <div class="routeResponseWindow">
+
+      </div>
     </div>
   </div>
   <script>
@@ -58,6 +70,10 @@
         headers: {"Content-type": "application/json"},
         body: JSON.stringify(data)
       })
+
+      let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
+      responseWindow.textContent = `status: ${response.status} ${response.statusText}\n`
+      responseWindow.textContent += await response.text()
     }
 
     async function getProductsHandler(e) {
@@ -69,7 +85,10 @@
       let query = new URLSearchParams(cleanData).toString()
 
       let response = await fetch(`http://localhost:3000/products?${query}`, {method: "GET"})
-      console.log(await response.json())
+      
+      let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
+      responseWindow.textContent = `status: ${response.status} ${response.statusText}\n`
+      responseWindow.textContent += await response.text()
     }
 
     async function updateProductHandler(e) {
@@ -77,9 +96,17 @@
 
       let formData = new FormData(e.currentTarget)
       let data = Object.fromEntries(formData)
-      let cleanData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value != "" && value != null && value != undefined))
+      let cleanData = Object.fromEntries(Object.entries(data).filter(([key, value]) => value != "" && value != null && value != undefined && key != "id"))
 
-      let response = await fetch(`http://localhost:3000/products`, {method: "PATCH"})
+      let response = await fetch(`http://localhost:3000/products/${data.id}`, {
+        method: "PATCH",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify(cleanData)
+      })
+
+      let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
+      responseWindow.textContent = `status: ${response.status} ${response.statusText}\n`
+      responseWindow.textContent += await response.text()
     }
 
     async function deleteProductHandler(e) {
@@ -89,6 +116,10 @@
       let data = Object.fromEntries(formData)
 
       let response = await fetch(`http://localhost:3000/products/${data.id}`, {method: "DELETE"})
+
+      let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
+      responseWindow.textContent = `status: ${response.status} ${response.statusText}\n`
+      responseWindow.textContent += await response.text()
     }
   </script>
 </body>
