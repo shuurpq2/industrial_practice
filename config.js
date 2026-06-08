@@ -4,7 +4,8 @@ import 'dotenv/config'
 
 class Settings {
   constructor() {
-    this.PORT = process.env.PORT
+    this.HOST = process.env.HOST || "localhost"
+    this.PORT = process.env.PORT || 3001
   
     let pathToFile = fileURLToPath(import.meta.url)
     let pathToDir = path.dirname(pathToFile)
