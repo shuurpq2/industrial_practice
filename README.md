@@ -1,7 +1,7 @@
 # My industrial practice project
 
 ## Description
-This is a CRUD for web store products and Fast API Swagger like frontend with 4 routes.
+This is a CRUD for web store products and FastAPI-Swagger-like frontend with 4 routes.
 
 ## Installation
 1. Clone repository
@@ -17,7 +17,7 @@ This is a CRUD for web store products and Fast API Swagger like frontend with 4 
         npm install
         ```
 
-3. Create a .env file at the root directory and define your variables. If skipped, the app will fallback to defaults.
+3. Create a .env file in the root directory and define your variables. If skipped, the app will fall back to defaults.
    ```env
    HOST=localhost
    PORT=3000
