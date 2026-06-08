@@ -1,8 +1,8 @@
-import ProductRepo from "../repos/product";
+import ProductRepo from "../repos/product.js";
 
 export default class ProductService {
     constructor(db) {
-        this.repo = ProductRepo(db)
+        this.repo = new ProductRepo(db)
     }
 
     create(name, price) {
