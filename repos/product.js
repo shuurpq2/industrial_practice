@@ -19,7 +19,7 @@ export default class ProductRepo {
             value: value
         })
 
-        console.log(res)
+        return res
     }
 
     getMulti(column, value) {
@@ -27,7 +27,13 @@ export default class ProductRepo {
             value: value
         })
 
-        console.log(res)
+        return res
+    }
+
+    getAll() {
+        let res = this.db.prepare(`SELECT * FROM ${this.model.tablename}`).all()
+
+        return res
     }
 
     update(id, pairs) {
