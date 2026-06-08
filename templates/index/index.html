@@ -2,9 +2,125 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Industrial Practice</title>
+  <link rel="stylesheet" href="style/global_style.css">
+  <link rel="stylesheet" href="index/style.css">
 </head>
 <body>
-  
+  <div class="wrapper">
+    <div class="route" name="createProduct">
+      <form class="routeForm" name="createProductForm" onsubmit="createProductHandler(event)">
+        <div class="routeInputs">
+          <input class="routeInput" name="name" placeholder="name" required>
+          <input type="number" class="routeInput" name="price" placeholder="price" required>
+        </div>
+        <button class="routeButton postButton">POST</button>
+      </form>
+      <div class="routeResponseWindow">
+
+      </div>
+    </div>
+    <div class="route" name="getProducts">
+      <form class="routeForm" name="getProductsForm" onsubmit="getProductsHandler(event)">
+          <div class="routeInputs">
+            <input type="number" class="routeInput" name="id" placeholder="id">
+            <input class="routeInput" name="name" placeholder="name">
+            <input type="number" class="routeInput" name="price" placeholder="price">
+          </div>
+          <button class="routeButton getButton">GET</button>
+        </form>
+        <div class="routeResponseWindow">
+
+        </div>
+    </div>
+    <div class="route" name="updateProduct">
+      <form class="routeForm" name="updateProductForm" onsubmit="updateProductHandler(event)">
+        <div class="routeInputs">
+          <input type="number" class="routeInput" name="id" placeholder="id" required>
+          <input class="routeInput" name="name" placeholder="name">
+          <input type="number" class="routeInput" name="price" placeholder="price">
+        </div>
+        <button class="routeButton patchButton">PATCH</button>
+      </form>
+      <div class="routeResponseWindow">
+
+      </div>
+    </div>
+    <div class="route" name="deleteProduct">
+      <form class="routeForm" name="deleteProductForm" onsubmit="deleteProductHandler(event)">
+        <div class="routeInputs">
+          <input type="number" class="routeInput" name="id" placeholder="id" required>
+        </div>
+        <button class="routeButton deleteButton">DELETE</button>
+      </form>
+      <div class="routeResponseWindow">
+
+      </div>
+    </div>
+  </div>
+  <script>
+    async function createProductHandler(e) {
+      e.preventDefault()
+
+      let formData = new FormData(e.currentTarget)
+      let data = Object.fromEntries(formData)
+
+      let response = await fetch(`http://localhost:3000/products`, {
+        method: "POST",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify(data)
+      })
+
+      let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
+      responseWindow.textContent = `status: ${response.status} ${response.statusText}\n`
+      responseWindow.textContent += await response.text()
+    }
+
+    async function getProductsHandler(e) {
+      e.preventDefault()
+      
+      let formData = new FormData(e.currentTarget)
+      let data = Object.fromEntries(formData)
+      let cleanData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value != "" && value != null && value != undefined))
+      let query = new URLSearchParams(cleanData).toString()
+
+      let response = await fetch(`http://localhost:3000/products?${query}`, {method: "GET"})
+      
+      let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
+      responseWindow.textContent = `status: ${response.status} ${response.statusText}\n`
+      responseWindow.textContent += await response.text()
+    }
+
+    async function updateProductHandler(e) {
+      e.preventDefault()
+
+      let formData = new FormData(e.currentTarget)
+      let data = Object.fromEntries(formData)
+      let cleanData = Object.fromEntries(Object.entries(data).filter(([key, value]) => value != "" && value != null && value != undefined && key != "id"))
+
+      let response = await fetch(`http://localhost:3000/products/${data.id}`, {
+        method: "PATCH",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify(cleanData)
+      })
+
+      let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
+      responseWindow.textContent = `status: ${response.status} ${response.statusText}\n`
+      responseWindow.textContent += await response.text()
+    }
+
+    async function deleteProductHandler(e) {
+      e.preventDefault()
+
+      let formData = new FormData(e.currentTarget)
+      let data = Object.fromEntries(formData)
+
+      let response = await fetch(`http://localhost:3000/products/${data.id}`, {method: "DELETE"})
+
+      let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
+      responseWindow.textContent = `status: ${response.status} ${response.statusText}\n`
+      responseWindow.textContent += await response.text()
+    }
+  </script>
 </body>
 </html>
