@@ -1,0 +1,31 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.request {
+    background-color: red;
+    padding: .5rem;
+}
+
+.requestButton {
+    width: 4rem;
+    height: 2.5rem;
+}
+
+.getButton {
+    background-color: rgb(135, 250, 135);
+}
+
+.postButton {
+    background-color: rgb(56, 189, 22);
+}
+
+.patchButton {
+    background-color: rgb(172, 189, 25);
+}
+
+.deleteButton {
+    background-color: rgb(202, 52, 52);
+}

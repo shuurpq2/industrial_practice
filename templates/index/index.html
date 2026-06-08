@@ -2,9 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Industrial Practice</title>
+  <link rel="stylesheet" href="style/global_style.css">
+  <link rel="stylesheet" href="index/style.css">
 </head>
 <body>
-  
+  <div class="wrapper">
+    <div class="request" name="createProduct">
+      <form class="requestForm" name="createProductForm" onsubmit="createProductHandler(event)">
+        <div class="requestInputs">
+          <input class="requestInput" name="name" placeholder="name" required>
+          <input type="number" class="requestInput" name="price" placeholder="price" required>
+        </div>
+        <button class="requestButton postButton">POST</button>
+      </form>
+    </div>
+    <div class="request" name="getProducts">
+      <form class="requestForm" name="getProductsForm" onsubmit="getProductsHandler(event)">
+          <div class="requestInputs">
+            <input type="number" class="requestInput" name="id" placeholder="id">
+            <input class="requestInput" name="name" placeholder="name">
+            <input type="number" class="requestInput" name="price" placeholder="price">
+          </div>
+          <button class="requestButton getButton">GET</button>
+        </form>
+    </div>
+    <div class="request" name="updateProduct">
+      <form class="requestForm" name="updateProductForm" onsubmit="updateProductHandler(event)">
+        <div class="requestInputs">
+          <input type="number" class="requestInput" name="id" placeholder="id" required>
+          <input class="requestInput" name="name" placeholder="name">
+          <input type="number" class="requestInput" name="price" placeholder="price">
+        </div>
+        <button class="requestButton patchButton">PATCH</button>
+      </form>
+    </div>
+    <div class="request" name="deleteProduct">
+      <form class="requestForm" name="deleteProductForm" onsubmit="deleteProductHandler(event)">
+        <div class="requestInputs">
+          <input type="number" class="requestInput" name="id" placeholder="id" required>
+        </div>
+        <button class="requestButton deleteButton">DELETE</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    async function createProductHandler(e) {
+      e.preventDefault()
+
+      let formData = new FormData(e.currentTarget)
+      let data = Object.fromEntries(formData)
+
+      let response = await fetch(`http://localhost:3000/products`, {
+        method: "POST",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify(data)
+      })
+    }
+
+    async function getProductsHandler(e) {
+      e.preventDefault()
+      
+      let formData = new FormData(e.currentTarget)
+      let data = Object.fromEntries(formData)
+      let cleanData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value != "" && value != null && value != undefined))
+      let query = new URLSearchParams(cleanData).toString()
+
+      let response = await fetch(`http://localhost:3000/products?${query}`, {method: "GET"})
+      console.log(await response.json())
+    }
+
+    async function updateProductHandler(e) {
+      e.preventDefault()
+
+      let formData = new FormData(e.currentTarget)
+      let data = Object.fromEntries(formData)
+      let cleanData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value != "" && value != null && value != undefined))
+
+      let response = await fetch(`http://localhost:3000/products`, {method: "PATCH"})
+    }
+
+    async function deleteProductHandler(e) {
+      e.preventDefault()
+
+      let formData = new FormData(e.currentTarget)
+      let data = Object.fromEntries(formData)
+
+      let response = await fetch(`http://localhost:3000/products/${data.id}`, {method: "DELETE"})
+    }
+  </script>
 </body>
 </html>

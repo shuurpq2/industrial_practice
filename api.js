@@ -7,6 +7,10 @@ let apiRouter = express.Router()
 
 apiRouter.use("/products", productRouter)
 
+apiRouter.get("/", (req, res) => {
+  res.sendFile(path.join(settings.PATH_TO_DIR, "templates/index/index.html"))
+})
+
 apiRouter.get("/ping", (req, res) => {
   res.send("pong")
 })
