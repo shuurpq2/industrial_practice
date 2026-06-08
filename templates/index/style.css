@@ -1,6 +1,17 @@
+html {
+    height: 100%;
+}
+
+body {
+    padding: 1.5rem;
+    margin: 0;
+    height: calc(100% - 3rem);
+}
+
 .wrapper {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    height: 100%;
     gap: 1rem;
 }
 
@@ -9,6 +20,7 @@
     padding: .5rem;
     display: flex;
     gap: .5rem;
+    box-shadow: 0rem 0rem .5rem .025rem black;
 }
 
 .routeForm {
@@ -43,7 +55,6 @@
     white-space: pre-line;
     padding: .5rem;
     width: 100%;
-    min-height: 10rem;
 }
 
 .getButton {
