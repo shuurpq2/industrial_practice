@@ -1,3 +1,5 @@
 export default class BaseModel {
-    static tablename = String()
+    static tablename = ""
+
+    static schema = {}
 }
