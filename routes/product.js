@@ -7,7 +7,11 @@ let router = express.Router()
 let productService = new ProductService(db)
 
 router.get("/", (req, res) => {
-    res.send(productService.getAll())
+    res.send(productService.get(req.query))
+})
+
+router.delete("/:id", (req, res) => {
+    res.send(productService.delete(req.params.id))
 })
 
 export default router
