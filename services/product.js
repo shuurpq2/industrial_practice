@@ -6,22 +6,26 @@ export default class ProductService {
     }
 
     create(name, price) {
-        this.repo.create(name, price)
+        return this.repo.create(name, price)
     }
 
     get(column, value) {
-        this.repo.get(column, value)
+        return this.repo.get(column, value)
     }
 
     getMulti(column, value) {
-        this.repo.getMulti(column, value)
+        return this.repo.getMulti(column, value)
+    }
+
+    getAll() {
+        return this.repo.getAll()
     }
 
     update(id, pairs) {
-        this.repo.update(id, pairs)
+        return this.repo.update(id, pairs)
     }
 
     delete(id) {
-        this.repo.delete(id)
+        return this.repo.delete(id)
     }
 }
