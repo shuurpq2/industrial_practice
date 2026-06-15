@@ -59,13 +59,15 @@
     </div>
   </div>
   <script>
+    const API_URL = `http://${location.host}`
+
     async function createProductHandler(e) {
       e.preventDefault()
 
       let formData = new FormData(e.currentTarget)
       let data = Object.fromEntries(formData)
 
-      let response = await fetch(`http://localhost:3000/products`, {
+      let response = await fetch(`${API_URL}/products`, {
         method: "POST",
         headers: {"Content-type": "application/json"},
         body: JSON.stringify(data)
@@ -84,7 +86,7 @@
       let cleanData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value != "" && value != null && value != undefined))
       let query = new URLSearchParams(cleanData).toString()
 
-      let response = await fetch(`http://localhost:3000/products?${query}`, {method: "GET"})
+      let response = await fetch(`${API_URL}/products?${query}`, {method: "GET"})
       
       let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
       responseWindow.textContent = `status: ${response.status} ${response.statusText}\n`
@@ -98,7 +100,7 @@
       let data = Object.fromEntries(formData)
       let cleanData = Object.fromEntries(Object.entries(data).filter(([key, value]) => value != "" && value != null && value != undefined && key != "id"))
 
-      let response = await fetch(`http://localhost:3000/products/${data.id}`, {
+      let response = await fetch(`${API_URL}/products/${data.id}`, {
         method: "PATCH",
         headers: {"Content-type": "application/json"},
         body: JSON.stringify(cleanData)
@@ -115,7 +117,7 @@
       let formData = new FormData(e.currentTarget)
       let data = Object.fromEntries(formData)
 
-      let response = await fetch(`http://localhost:3000/products/${data.id}`, {method: "DELETE"})
+      let response = await fetch(`${API_URL}/products/${data.id}`, {method: "DELETE"})
 
       let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
       responseWindow.textContent = `status: ${response.status} ${response.statusText}\n`
