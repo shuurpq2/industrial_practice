@@ -99,6 +99,12 @@
       let formData = new FormData(e.currentTarget)
       let data = Object.fromEntries(formData)
       let cleanData = Object.fromEntries(Object.entries(data).filter(([key, value]) => value != "" && value != null && value != undefined && key != "id"))
+      if (Object.entries(cleanData).length == 0) {
+        let responseWindow = e.target.parentNode.querySelector(".routeResponseWindow")
+        responseWindow.textContent = `Error: "name" and "price" can't be empty at the same time`
+
+        return
+      } 
 
       let response = await fetch(`${API_URL}/products/${data.id}`, {
         method: "PATCH",
